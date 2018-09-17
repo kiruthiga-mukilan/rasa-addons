@@ -1,8 +1,7 @@
 import logging
 from flask_socketio import SocketIO, emit
 from flask import Blueprint, send_from_directory, request, jsonify
-from rasa_core.channels import HttpInputComponent, OutputChannel, HttpInputChannel, UserMessage
-
+from rasa_core.channels.channel import InputChannel, OutputChannel, RestInput, UserMessage
 logger = logging.getLogger(__name__)
 
 
@@ -66,7 +65,7 @@ class WebchatBot(OutputChannel):
         emit('bot_uttered', message, room=recipient_id)
 
 
-class WebChatInput(HttpInputComponent):
+class WebChatInput(InputChannel):
     """Webchat input channel implementation. Based on the HTTPInputChannel."""
 
     def __init__(self, static_assets_path=None, index='index.html'):
@@ -95,7 +94,7 @@ class WebChatInput(HttpInputComponent):
         return web_chat_webhook
 
 
-class SocketInputChannel(HttpInputChannel):
+class SocketInputChannel(RestInput):
 
     def _record_messages(self, on_message):
         # type: (Callable[[UserMessage], None]) -> None
