@@ -94,7 +94,7 @@ class WebChatInput(InputChannel):
         return web_chat_webhook
 
 
-class SocketInputChannel(RestInput):
+class SocketInputChannel(InputChannel):
 
     def _record_messages(self, on_message):
         # type: (Callable[[UserMessage], None]) -> None
